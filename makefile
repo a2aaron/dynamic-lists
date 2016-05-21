@@ -1,2 +1,2 @@
 all:
-	gcc hello_world.c -Wall -Werror
+	gcc dynamic_list.c -Wall -Werror
