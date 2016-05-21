@@ -34,23 +34,37 @@ int pop(struct list *l) {
 
 }
 
+int delete(struct list *l, int index) {
+    // Sanity check.
+    if (index < 0 || index > l->item_count) {
+        return -1;
+    }
+    //remember that both item_count and index are ints, so we have to multiply by the size of ints.
+    memmove(l->data + index, l->data + index + 1, (l->item_count - index) * sizeof(int));
+    l->item_count--;
+    return 0;
+}
+
+void print_list(struct list *l) {
+    for (int i = 0; i < l->item_count; i++) {
+        printf("%d ", l->data[i]);
+    } 
+    printf("\n");
+}
+
 int main() {
     struct list l = {0, 8, NULL};
     l.data = calloc(l.item_count, l.mem_size);
-    append(&l, 4);
-    append(&l, 5);
-    append(&l, 6);
-    for (int i = 0; i < l.item_count; i++) {
-        printf("%d\n", l.data[i]);
+    for (int i = 0; i < 10; i++) {
+        append(&l, i);
     }
-    int popped = pop(&l);
-    int popped2 = pop(&l);
-    int popped3 = pop(&l);
-    int popped4 = pop(&l);
-    printf("Popped: %d\n", popped);
-    printf("Popped: %d\n", popped2);
-    printf("Popped: %d\n", popped3);
-    printf("Popped: %d\n", popped4);
+    print_list(&l);
 
+    delete(&l, 3);
+    print_list(&l);
+    delete(&l, 8);
+    print_list(&l);
+    delete(&l, 0);
+    print_list(&l);
     return 0;
 }
